@@ -1,0 +1,41 @@
+Q-1 select month(HireDate) as month, count(*) as Total_Hired
+       from HumanResources.Employee
+       group by month(HireDate);
+
+
+-------------------------------------------
+
+Q-2 select a.Name, year(c.HireDate) as H_year, count(*) as total
+from HumanResources.Department a INNER JOIN
+HumanResources.EmployeeDepartmentHistory b
+on a.DepartmentID = b.DepartmentID
+INNER JOIN HumanResources.Employee c
+on b.BusinessEntityID = c.BusinessEntityID
+GROUP BY year(c.HireDate), a.Name;
+
+
+--------------------
+
+Q-3select a.FirstName, f.Name
+from Person.Person a
+inner join Person.BusinessEntity b 
+on a.BusinessEntityID = b.BusinessEntityID
+INNER join Person.BusinessEntityAddress c 
+on c.BusinessEntityID = b.BusinessEntityID
+INNER JOIN Person.Address d 
+on d.AddressID = c.AddressID
+INNER join Person.StateProvince e 
+on e.StateProvinceID = d.StateProvinceID
+INNER JOIN Person.CountryRegion f 
+on f.CountryRegionCode = e.CountryRegionCode
+where a.FirstName like 'S%' and a.BusinessEntityID NOT in (select BusinessEntityID from HumanResources.Employee);
+
+
+----------------------------------------------
+
+
+Q-4 select CONCAT(a.FirstName, ' ', a.LastName) as Name, b.JobTitle, b.OrganizationLevel, count(*)as NumberOfEmployeeReporting
+from Person.Person a 
+inner join HumanResources.Employee b 
+on a.BusinessEntityID = b.BusinessEntityID
+;
